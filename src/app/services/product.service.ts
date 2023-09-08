@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../common/product';
-import {  map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,8 +13,11 @@ export class ProductService {
   constructor(private httpClient: HttpClient) {}
 
   getProductList(theCategoryId: number): Observable<Product[]> {
+    // build URL based on category id
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
+
     return this.httpClient
-      .get<GetResponse>(this.baseUrl)
+      .get<GetResponse>(searchUrl)
       .pipe(map((response) => response._embedded.products));
   }
 }
