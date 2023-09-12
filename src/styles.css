@@ -4,9 +4,7 @@
  * ----------------------------
  * Common CSS
  * ----------------------------
- */
-
- * {
+ */ * {
   margin: 0;
   padding: 0;
   -webkit-box-sizing: border-box;
@@ -741,6 +739,10 @@ table.table.table-bordered th {
 }
 .detail-section {
   margin-top: 60px;
+}
+
+.detail-img {
+  width: 30%;
 }
 /**/
 
