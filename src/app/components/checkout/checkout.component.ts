@@ -1,3 +1,4 @@
+import { PaymentInfo } from './../../common/payment-info';
 import { Luv2ShopFormService } from './../../services/luv2-shop-form.service';
 import { Component, OnInit } from '@angular/core';
 import {
@@ -15,6 +16,8 @@ import { State } from 'src/app/common/state';
 import { CartService } from 'src/app/services/cart.service';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { Luv2ShopValidators } from 'src/app/validators/luv2-shop-validators';
+import { environment } from 'src/environments/environment.development';
+
 
 @Component({
   selector: 'app-checkout',
@@ -36,6 +39,13 @@ export class CheckoutComponent implements OnInit {
   billingAddressStates: State[] = [];
   storage: Storage = sessionStorage;
 
+  // initialize stripe API
+  stripe = Stripe(environment.stripePublishableKey);
+
+  PaymentInfo: PaymentInfo = new PaymentInfo();
+  cardElement: any;
+  displayError: any = '';
+
   constructor(
     private formBuilder: FormBuilder,
     private luv2ShopFormService: Luv2ShopFormService,
@@ -45,6 +55,10 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
+    //setup stripe payment form
+    this.setupStripePaymentForm();
+
     this.reviewCartDetails();
 
     //read the user's email address from browser storage
@@ -106,6 +120,7 @@ export class CheckoutComponent implements OnInit {
         ]),
       }),
       creditCard: this.formBuilder.group({
+        /*
         cardType: new FormControl('', [Validators.required]),
         nameOnCard: new FormControl('', [
           Validators.required,
@@ -122,11 +137,12 @@ export class CheckoutComponent implements OnInit {
         ]),
         expirationMonth: [''],
         expirationYear: [''],
+        */
       }),
     });
 
     // populate credit card months
-
+/*
     const startMonth: number = new Date().getMonth() + 1;
     console.log('startMonth: ' + startMonth);
 
@@ -143,6 +159,7 @@ export class CheckoutComponent implements OnInit {
       console.log('Retrieved credit card years: ' + JSON.stringify(data));
       this.creditCardYears = data;
     });
+    */
 
     // populate countries
 
@@ -151,6 +168,10 @@ export class CheckoutComponent implements OnInit {
       this.countries = data;
     });
   }
+  setupStripePaymentForm() {
+    throw new Error('Method not implemented.');
+  }
+
 
   reviewCartDetails() {
     //subscribe to cartService.totalQuantity
